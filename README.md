@@ -14,6 +14,13 @@ MongoDB URL Local:
 mongodb://localhost:27017
 ```
 
+- Recontruir los módulos de node e instalarlos
+
+```
+yarn install
+yarn dev
+```
+
 ## Configurar las variables de entorno
 
 Renombrar el archivo **.env.template** a **.env**

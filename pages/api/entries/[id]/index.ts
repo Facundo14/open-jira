@@ -25,6 +25,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
         case 'PUT':
             return updateEntry(req, res);
 
+        case 'DELETE':
+            return deleteEntry(req, res);
+
         default:
             return res.status(400).json({
                 ok: false,
@@ -119,4 +122,39 @@ const updateEntry = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
         });
     }
 
+}
+
+const deleteEntry = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+    
+        const { id } = req.query;
+        
+        await db.connect();
+    
+        const entryToDelete = await Entry.findById(id);
+    
+        if(!entryToDelete){
+    
+            await db.disconnect();
+    
+            return res.status(400).json({
+                ok: false,
+                message: 'No existe la entrada con ese id:' + id
+            });
+        }
+    
+        try {
+            const deletedEntry = await Entry.findByIdAndDelete(id);
+    
+            await db.disconnect();
+            
+            res.status(200).json({
+                ok: true,
+                message: 'Eliminado',
+                entry: deletedEntry!
+            });
+    
+        } catch (error: any) {
+            await db.disconnect();
+            console.log(error);
+        }
 }

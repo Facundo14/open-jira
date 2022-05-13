@@ -7,17 +7,21 @@ import { EntriesPovider } from '../context/entries';
 
 import { darkTheme, lightTheme } from '../themes';
 
+import { SnackbarProvider } from 'notistack';
+
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <EntriesPovider>
-      <UIPovider>
-        <ThemeProvider  theme={ darkTheme } >
-          <CssBaseline />
-          <Component {...pageProps} />  
-        </ThemeProvider>
-      </UIPovider>
-    </EntriesPovider>
+    <SnackbarProvider maxSnack={3}>
+      <EntriesPovider>
+        <UIPovider>
+          <ThemeProvider  theme={ darkTheme } >
+            <CssBaseline />
+            <Component {...pageProps} />  
+          </ThemeProvider>
+        </UIPovider>
+      </EntriesPovider>
+    </SnackbarProvider>
   )
 }
 
